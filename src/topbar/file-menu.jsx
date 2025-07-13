@@ -18,6 +18,7 @@ import {
   FloppyDisk,
   Import,
 } from '@blueprintjs/icons';
+// downloadFile is no longer used for saving JSON, but may be used elsewhere.
 import { downloadFile } from 'polotno/utils/download';
 import { svgToJson } from 'polotno/utils/from-svg';
 
@@ -30,7 +31,6 @@ export const FileMenu = observer(({ store, project }) => {
       <Popover
         content={
           <Menu>
-            {/* <MenuDivider title={t('toolbar.layering')} /> */}
             <MenuItem
               icon={<Plus />}
               text="Create new design"
@@ -41,7 +41,7 @@ export const FileMenu = observer(({ store, project }) => {
             <MenuDivider />
             <MenuItem
               icon={<FolderOpen />}
-              text="Open"
+              text="Load Editable Template"
               onClick={() => {
                 document.querySelector('#load-project').click();
               }}
@@ -55,17 +55,34 @@ export const FileMenu = observer(({ store, project }) => {
             />
             <MenuItem
               icon={<FloppyDisk />}
-              text="Save as JSON"
+              text="Export as Editable Template"
               onClick={() => {
+                // Get the project state as a JSON object
                 const json = store.toJSON();
 
-                const url =
-                  'data:text/json;base64,' +
-                  window.btoa(
-                    unescape(encodeURIComponent(JSON.stringify(json)))
-                  );
+                // Convert the JSON object into a nicely formatted string
+                const jsonString = JSON.stringify(json, null, 2);
 
-                downloadFile(url, 'polotno.json');
+                // Create a Blob, which is a file-like object, from the string
+                const blob = new Blob([jsonString], {
+                  type: 'application/json',
+                });
+
+                // Create a temporary URL for this Blob
+                const url = URL.createObjectURL(blob);
+
+                // Create a temporary, invisible anchor element (<a>)
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'editable-template.json'; // The desired filename
+
+                // Append the link to the body, click it to trigger the download, then remove it
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                // Release the temporary URL from memory
+                URL.revokeObjectURL(url);
               }}
             />
 
