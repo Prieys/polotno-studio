@@ -143,19 +143,6 @@ export const FileMenu = observer(({ store, project }) => {
               alert('Can not load the project.');
             }
 
-            // THIS IS THE FIX
-            // We loop through the data and force all text elements to be editable
-            if (json) {
-              json.pages.forEach((page) => {
-                page.elements.forEach((element) => {
-                  if (element.type === 'text') {
-                    element.editable = true;
-                  }
-                });
-              });
-            }
-            // END OF FIX
-
             const errors = store.validate(json);
             if (errors.length > 0) {
               alert('Can not load the project. See console for details.');
