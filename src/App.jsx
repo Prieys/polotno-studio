@@ -112,6 +112,13 @@ const App = observer(({ store }) => {
     project.firstLoad();
   }, []);
 
+  <Workspace
+  store={store}
+  textDefault={{
+    editable: true
+  }}
+/>
+
   const handleDrop = (ev) => {
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
