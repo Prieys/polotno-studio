@@ -112,13 +112,6 @@ const App = observer(({ store }) => {
     project.firstLoad();
   }, []);
 
-  <Workspace
-  store={store}
-  textDefault={{
-    editable: true
-  }}
-/>
-
   const handleDrop = (ev) => {
     // Prevent default behavior (Prevent file from being opened)
     ev.preventDefault();
@@ -152,9 +145,8 @@ const App = observer(({ store }) => {
           </SidePanelWrap>
           <WorkspaceWrap>
             <Toolbar store={store} />
-            {/* THIS IS THE ONLY CHANGE TO FIX THE JSON PROBLEM */}
+            {/* The Workspace component is now in the correct location */}
             <Workspace store={store} textDefault={{ editable: true }} />
-            {/* END OF FIX */}
             <ZoomButtons store={store} />
             <PagesTimeline store={store} />
           </WorkspaceWrap>
