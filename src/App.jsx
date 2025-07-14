@@ -92,6 +92,16 @@ const App = observer(({ store }) => {
   const project = useProject();
   const height = useHeight();
 
+  // THIS IS THE ADDED CODE BLOCK
+  // It sets the canvas size to match your custom editor
+  React.useEffect(() => {
+    if (store && store.pages.length > 0) {
+      const width = 2550;
+      const height = 3300;
+      store.setSize(width, height);
+    }
+  }, [store]);
+
   React.useEffect(() => {
     if (project.language.startsWith('fr')) {
       setTranslations(fr, { validate: true });
