@@ -30,6 +30,9 @@ import zhCh from './translations/zh-ch';
 
 import Topbar from './topbar/topbar';
 
+// THIS IS THE FIRST NEW LINE - IMPORT OUR CUSTOM ELEMENT
+import { CurvedText } from './elements/curved-text';
+
 // load default translations
 setTranslations(en);
 
@@ -137,6 +140,11 @@ const App = observer(({ store }) => {
     }
   };
 
+  // THIS IS THE SECOND NEW BLOCK - DEFINING OUR CUSTOM COMPONENT MAPPING
+  const components = {
+    'curved-text': CurvedText,
+  };
+
   return (
     <div
       style={{
@@ -155,8 +163,12 @@ const App = observer(({ store }) => {
           </SidePanelWrap>
           <WorkspaceWrap>
             <Toolbar store={store} />
-            {/* The Workspace component is now in the correct location */}
-            <Workspace store={store} textDefault={{ editable: true }} />
+            {/* THIS LINE IS MODIFIED to include the components prop */}
+            <Workspace
+              store={store}
+              textDefault={{ editable: true }}
+              components={components}
+            />
             <ZoomButtons store={store} />
             <PagesTimeline store={store} />
           </WorkspaceWrap>
